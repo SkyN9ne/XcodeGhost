@@ -1,3 +1,71 @@
+# Propagation
+
+Because of the slow download speed from Apple servers, Chinese iOS developers would download Xcode from third party websites, such as Baidu Yun (now called Baidu WangPan), a cloud storage service hosted by Baidu, or get copies from co-workers. Attackers took advantage of this situation by distributing compromised versions on such file hosting websites.
+
+The attacker used a compiler backdoor attack. The novelty of this attack is the modification of the Xcode compiler. However, according to documents leaked by Edward Snowden, CIA security researchers from Sandia National Laboratories claimed that they "had created a modified version of Apple’s proprietary software development tool, Xcode, which could sneak surveillance backdoors into any apps or programs created using the tool."[18]
+
+# Modified files
+
+Known versions of XcodeGhost add extra files[13] to the original Xcode application:
+
+Core service framework on iOS, iOS simulator and OS X platforms
+IDEBundleInjection framework added on iOS, iOS simulator and OS X platforms
+XcodeGhost also modified the linker to link the malicious files[16] into the compiled app. This step is reported on the compiling log but not on the Xcode IDE.
+
+Both iOS and OS X apps are vulnerable to XcodeGhost.
+
+# Deployment
+
+XcodeGhost compromised the CoreServices layer, which contains highly used features and frameworks used by the app.[19] When a developer compiles their application with a compromised version of Xcode, the malicious CoreServices are automatically integrated into the app without the developer's knowledge.
+
+Then the malicious files will add extra code in UIWindow class and UIDevice class. The UIWindow class is "an object that manages and coordinates the views an app displays on a device screen".[20]
+
+The UIDevice class provides a singleton instance representing the current device. From this instance the attacker can obtain information about the device such as assigned name, device model, and operating-system name and version.[
+
+# Behavior on infected devices
+
+Remote control security risks
+
+XcodeGhost can be remotely controlled via commands sent by an attacker from a Command and control server through HTTP. This data is encrypted using the DES algorithm in ECB mode. Not only is this encryption mode known to be weak, the encryption keys can also be found using reverse engineering. An attacker could perform a man in the middle attack and transmit fake HTTP traffic to the device (to open a dialog box or open specific app for example).
+
+Stealing user device information
+
+When the infected app is launched, either by using an iPhone or the simulator inside Xcode, XcodeGhost will automatically collect device information such as:
+
+Current time
+Current infected app's name
+The app's bundle identifier
+Current device's name and type
+Current system's language and country
+Current device's UUID
+Network type
+Then the malware will encrypt those data and send it to a command and control server. The server differs from version to version of XcodeGhost; Palo Alto Networks was able to find three server URLs:
+
+http://init.crash-analytics.com
+http://init.icloud-diagnostics.com
+http://init.icloud-analysis.com
+The last domain was also used in the iOS malware KeyRaider
+
+# Read and write from clipboard
+
+
+
+XcodeGhost is also able, each time an infected app is launched, to store the data written in the iOS clipboard. The malware is also able to modify this data. This can be particularly dangerous if the user uses a password management app.
+
+# Hijack opening specific URLs
+
+
+
+XcodeGhost is also able to open specific URLs when the infected app is launched. Since Apple iOS and OS X work with Inter-App Communication URL mechanism[22] (e.g. 'whatsapp://', 'Facebook://', 'iTunes://'), the attacker can open any apps installed on the compromised phone or computer, in the case of an infected macOS application. Such mechanism could be harmful with password management apps or even on phishing websites.
+
+# Prompting alert dialog
+
+
+
+In its current known version XcodeGhost cannot prompt alert dialogs on the user device.[16] However, it only requires minor changes.
+
+By using a UIAlertView class with the UIAlertViewStyleLoginAndPasswordInput property, the infected app can display a fake alert dialog box that looks like a normal Apple ID user credential check and send the input to the Command and control server.
+
 # XcodeGhost
 "XcodeGhost" Source
 关于所谓”XcodeGhost”的澄清
