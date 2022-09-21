@@ -22,13 +22,13 @@ Then the malicious files will add extra code in UIWindow class and UIDevice clas
 
 The UIDevice class provides a singleton instance representing the current device. From this instance the attacker can obtain information about the device such as assigned name, device model, and operating-system name and version.[
 
-# Behavior on infected devices
 
-Remote control security risks
+
+# Remote control security risks
 
 XcodeGhost can be remotely controlled via commands sent by an attacker from a Command and control server through HTTP. This data is encrypted using the DES algorithm in ECB mode. Not only is this encryption mode known to be weak, the encryption keys can also be found using reverse engineering. An attacker could perform a man in the middle attack and transmit fake HTTP traffic to the device (to open a dialog box or open specific app for example).
 
-Stealing user device information
+# Stealing user device information
 
 When the infected app is launched, either by using an iPhone or the simulator inside Xcode, XcodeGhost will automatically collect device information such as:
 
